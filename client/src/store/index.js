@@ -11,7 +11,7 @@ export default new Vuex.Store({
         isAuthenticated: false,
         status: '',
         token: localStorage.getItem('token') || '',
-        user : {}
+        user: {}
     },
     mutations: {
         changeState(posts, state) {
@@ -20,23 +20,23 @@ export default new Vuex.Store({
         setIsAuthenticated(state) {
             state.isAuthenticated = true;
         },
-        auth_request(state){
+        auth_request(state) {
             state.status = 'loading'
         },
-        auth_success(state, token, user){
+        auth_success(state, token, user) {
             state.status = 'success';
             state.token = token;
             state.user = user
         },
-        auth_error(state){
+        auth_error(state) {
             state.status = 'error'
         },
     },
     actions: {
-        userLogin({commit}, user){
+        userLogin({commit}, user) {
             return new Promise((resolve, reject) => {
                 commit('auth_request');
-                axios({url: 'http://localhost:3000/login', data: user, method: 'POST' })
+                axios.post('http://localhost:3000/login', user)
                     .then(resp => {
                         const token = resp.data.token;
                         const user = resp.data.user;
@@ -52,10 +52,10 @@ export default new Vuex.Store({
                     })
             })
         },
-        userSignup({commit}, user){
+        userSignup({commit}, user) {
             return new Promise((resolve, reject) => {
                 commit('auth_request');
-                axios({url: 'http://localhost:3000/register', data: user, method: 'POST' })
+                axios.post('http://localhost:3000/register', user)
                     .then(resp => {
                         const token = resp.data.token;
                         const user = resp.data.user;
@@ -71,7 +71,7 @@ export default new Vuex.Store({
                     })
             })
         },
-        getPosts(commit, state){
+        getPosts(commit, state) {
             axios.get('https://jsonplaceholder.typicode.com/posts')
                 .then(res => state.posts = res.data)
                 .catch(err => {

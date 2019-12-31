@@ -13,6 +13,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/post', function (req, res, next) {
+
     axios.post('https://jsonplaceholder.typicode.com/posts', req.body).then(res => {
         console.log(res.data)
     }).catch(error => {

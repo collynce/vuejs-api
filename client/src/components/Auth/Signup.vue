@@ -51,7 +51,6 @@
                     is_admin: this.is_admin
                 };
                 this.$store.dispatch('userSignup', data)
-                    .then(() => this.$router.push('/'))
                     .catch(err => console.log(err))
             }
         }
