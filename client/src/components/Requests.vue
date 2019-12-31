@@ -1,5 +1,6 @@
 <template>
-    <div @click="postData()">
+    <div>
+        <router-view/>
     </div>
 </template>
 
@@ -15,11 +16,11 @@
                 password: ''
             }
         },
-        computed:{
-            userAuthenticated(){
-                return this.$store.state.user
-            }
-        },
+        // computed:{
+        //     userAuthenticated(){
+        //         // return this.$store.state.user
+        //     }
+        // },
         methods: {
             changeState(){
 

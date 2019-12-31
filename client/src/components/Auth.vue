@@ -1,5 +1,9 @@
 <template>
-    <div></div>
+    <div>
+        sdsds
+
+        <router-view/>
+    </div>
 </template>
 
 <script>

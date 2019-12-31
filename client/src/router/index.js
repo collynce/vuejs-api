@@ -6,6 +6,7 @@ import Api from "../components/HelloWorld";
 import Auth from "../components/Auth";
 import Login from "../components/Auth/Login";
 import Signup from "../components/Auth/Signup";
+import {ActionContext as store} from "vuex";
 
 Vue.use(VueRouter);
 
@@ -13,7 +14,10 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: Home
+    component: Home,
+    meta: {
+      requiresAuth: true
+    },
   },
   {
     path: "/about",
@@ -24,20 +28,18 @@ const routes = [
   {
     path:'/requests',
     component: Requests,
+  },
+  {
+    path: '/auth',
+    component: Auth,
     children: [
       {
-        path: '/auth',
-        component: Auth,
-        children: [
-          {
-            path: '/login',
-            component: Login
-          },
-          {
-            path: '/signup',
-            component: Signup
-          }
-        ]
+        path: '/login',
+        component: Login
+      },
+      {
+        path: '/signup',
+        component: Signup
       }
     ]
   },
@@ -47,10 +49,23 @@ const routes = [
   }
 ];
 
+
+
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes
+});
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters.isLoggedIn) {
+      next();
+      return
+    }
+    next('/login')
+  } else {
+    next()
+  }
 });
 
 export default router;
