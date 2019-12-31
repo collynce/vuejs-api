@@ -15,7 +15,15 @@
                 password: ''
             }
         },
+        computed:{
+            userAuthenticated(){
+                return this.$store.state.user
+            }
+        },
         methods: {
+            changeState(){
+
+            },
             getApi() {
                 axios.get('https://jsonplaceholder.typicode.com/posts')
                     .then(res => this.getData = res.data)
