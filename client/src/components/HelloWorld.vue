@@ -5,9 +5,7 @@
         </ul>
     </div>
 </template>
-
 <script>
-    import axios from "axios";
     export default {
         name: "HelloWorld",
         props: {
@@ -15,19 +13,20 @@
         },
         data() {
             return {
-              apiData:''
+                apiData: ''
             }
         },
-        mounted() {
+        created() {
             this.getApi();
         },
         methods: {
             getApi() {
-                axios.get('http://localhost:3000/api').then(res=>{
-                    this.apiData = res.data
-                }).catch(error=>{
-                    console.log(error)
-                })
+                fetch("https://jsonplaceholder.typicode.com/posts")
+                    .then(response => response.json())
+                    .then(response => {
+                        this.apiData = response;
+                        console.log(this.apiData)
+                    })
             }
         }
 
