@@ -43,7 +43,7 @@
             }
         },
         methods: {
-            register: function () {
+            register() {
                 let data = {
                     name: this.name,
                     email: this.email,

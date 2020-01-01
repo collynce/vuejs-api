@@ -14,7 +14,7 @@ export default new Vuex.Store({
         user: {}
     },
     mutations: {
-        changeState(posts, state) {
+        change_state(state, posts) {
             state.posts = posts;
         },
         setIsAuthenticated(state) {
@@ -71,11 +71,21 @@ export default new Vuex.Store({
                     })
             })
         },
-        getPosts(commit, state) {
-            axios.get('https://jsonplaceholder.typicode.com/posts')
-                .then(res => state.posts = res.data)
+        getPosts({commit}) {
+            axios.get('http://localhost:3000/api')
+                .then(res => res.data)
+                .then(posts => {
+                    console.log(posts);
+                    commit("change_state", posts);
+                })
                 .catch(err => {
                     console.log(err)
+                })
+        },
+        addPosts({commit},myposts) {
+            axios.post("http://localhost:3000/api/post", myposts)
+                .then(res=>{
+                    console.log(res)
                 })
         }
     },

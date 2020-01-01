@@ -6,6 +6,10 @@ const SECRET_KEY = 'secretkey';
 
 const dataArray = [];
 
+router.get('/', function (res, req, next) {
+    req.send('index')
+});
+
 router.post('/login', function (req, res, next) {
   const myToken = req.header('Authorization').replace('Bearer ', '');
   const payload = jwt.verify(myToken, process.env.SECRET_KEY);
