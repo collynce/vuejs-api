@@ -1,24 +1,29 @@
 <template>
-    <div class="hello">
+    <div class="grid-container">
         <div class="holder">
 <!--            <p>{{$route.params.id}}</p>-->
             <div>
-                <form>
-                    <input type="text" placeholder="Title" v-model="form.title" name="title">
-                    <input type="text" placeholder="Body" v-model="form.body" name="body">
+                <form @submit.prevent="addPost">
+                    <input type="text" placeholder="Title" v-model="form.title" name="title" required>
+
+                    <textarea placeholder="Body" v-model="form.body" name="body" required/>
+                    <button class="button" type="submit">ADD POST</button>
                 </form>
             </div>
-            <button @click="addPost">ADD POST</button>
-            <div></div>
-            <ul v-for="data in posts" :key="data.id">
-                <li>
-                    {{data.title}}
-                    {{data.body}}
-                    <router-link :to="`/api/`+ data.id">Go Here</router-link>
-                </li>
-            </ul>
-        </div>
+            <div class="grid-x grid-margin-x" >
+                <div class="cell medium-4" v-for="data in posts" :key="data.id">
+                    <div class="card">
+                        <div class="card-divider">
+                            {{data.title}}
+                        </div>
+                        <div class="card-body">
+                            {{data.body}}
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+        </div>
     </div>
 </template>
 <script>
@@ -36,7 +41,7 @@
                 form: {}
             }
         },
-        created() {
+        mounted() {
             this.getPosts();
         },
         computed: mapState([
@@ -48,7 +53,7 @@
             },
             addPost() {
                 this.$store.dispatch('addPosts', this.form);
-                this.getPosts()
+                this.form = {}
             }
         }
 
@@ -80,7 +85,7 @@
     .container {
         box-shadow: 0px 0px 40px lightgray;
     }
-    input {
+    input, textarea {
         width: calc(100% - 40px);
         border: 0;
         padding: 20px;

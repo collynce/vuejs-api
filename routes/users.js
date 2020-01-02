@@ -16,6 +16,7 @@ let postsArray = [];
 //             res.send(error);
 //         });
 // });
+
 router.get('/', function (req, res, next) {
     res.send(postsArray);
 });
@@ -23,7 +24,8 @@ router.get('/', function (req, res, next) {
 router.post('/post', function (req, res, next) {
         const data = req.body;
         postsArray.push(data);
-        res.send(postsArray)
+        res.send(postsArray);
+    console.log(postsArray);
 });
 
 module.exports = router;

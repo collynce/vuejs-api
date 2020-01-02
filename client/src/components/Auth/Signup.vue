@@ -23,7 +23,7 @@
             </div>
 
             <div>
-                <button type="submit">Register</button>
+                <button class="button alert" type="submit">Register</button>
             </div>
         </form>
 
@@ -51,7 +51,9 @@
                     is_admin: this.is_admin
                 };
                 this.$store.dispatch('userSignup', data)
-                    .catch(err => console.log(err))
+                    .catch(err => console.log(err));
+                console.log(localStorage)
+
             }
         }
     }

@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        posts: '',
+        posts: {},
         title: '',
         isAuthenticated: false,
         status: '',
@@ -15,10 +15,14 @@ export default new Vuex.Store({
     },
     mutations: {
         change_state(state, posts) {
-            state.posts = posts;
+            state.posts=posts;
         },
         setIsAuthenticated(state) {
             state.isAuthenticated = true;
+        },
+        delete_post(state, post){
+            const posts = state.posts;
+            posts.splice(posts.indexOf(post), 1)
         },
         auth_request(state) {
             state.status = 'loading'
@@ -40,6 +44,7 @@ export default new Vuex.Store({
                     .then(resp => {
                         const token = resp.data.token;
                         const user = resp.data.user;
+                        console.log(resp);
                         localStorage.setItem('token', token);
                         axios.defaults.headers.common['Authorization'] = token;
                         commit('auth_success', token, user);
@@ -75,8 +80,8 @@ export default new Vuex.Store({
             axios.get('http://localhost:3000/api')
                 .then(res => res.data)
                 .then(posts => {
-                    console.log(posts);
                     commit("change_state", posts);
+                    console.log(posts)
                 })
                 .catch(err => {
                     console.log(err)
@@ -84,9 +89,13 @@ export default new Vuex.Store({
         },
         addPosts({commit},myposts) {
             axios.post("http://localhost:3000/api/post", myposts)
-                .then(res=>{
-                    console.log(res)
+                .then(res=>res.data)
+                .then(posts=>{
+                    commit("change_state", posts);
                 })
+        },
+        deletePost({commit}, post){
+            commit("delete_post", post)
         }
     },
     getters: {
